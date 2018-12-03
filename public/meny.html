@@ -6,7 +6,7 @@
 			<h2> Lunch Meny </h2>
 			<h4> I lunch menyn ingår alltid dricka </h4>
 			<h5> Köp till ett Nannbröd för endast 20kr </h5>
-			<table class="table" datatable="ng">
+			<table class="menu-table" datatable="ng">
 
 				<thead class="lunch-day-header">
 					<tr>
@@ -39,7 +39,7 @@
 			<h2> Middag </h2>
 			<h4> <br> </h4>
 			<h5> <br> </h5>
-			<table class="table" datatable="ng">
+			<table class="menu-table" datatable="ng">
 
 				<thead class="dinner-day-header">
 					<tr>
@@ -67,13 +67,13 @@
 		</div>
 		<div class="col-md-4">
 			<div class="shopping-cart" ng-show="cart.length !== 0" >
-	            <h1>Varukorg</h1>
+	            <h1 id="title">Varukorg</h1>
 	            <ul class="list-group">
 	            <li class="list-group-item" ng-repeat="c in cart">
 
-	              <h4>{{c.name}} </h4>
-	              <h5>Antal:  <span style="color:blue"> {{c.count}} </span></h5>
-				  <h5>{{c.price * c.count | currency}}</h5>
+	              <h4 class="item-name">{{c.name}} </h4>
+	              <h5 class="item-amount">Antal:  <span style="color:blue"> {{c.count}} </span></h5>
+				  <h5 class="item-price">{{c.price * c.count | currency}}</h5>
 	              <input class="btn btn-danger" type="button" ng-click="removeItemCart(c)" value="Ångra" />
 	            </li>
 	          </ul>

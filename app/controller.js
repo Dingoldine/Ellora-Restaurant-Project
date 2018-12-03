@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var model = require("./model.js");
 var db = require("./dbmodel.js");
+var shajs = require('sha.js');
 
 //A reservation request, makes insertion to database, sends the appropriate responsed based on if insertion successfull or not
 router.post('/booking', function (req, res){
@@ -134,6 +135,31 @@ router.post('/makeOrder', function(req, res) {
         });
     });
   });
+});
+
+
+
+//responds to login, fetches password hash and checks if it matches and sends back
+router.post('/login', function(req, res) {
+  console.log(req.body.password);
+  db.getCredentials().then( function(result) {
+    var databaseFetch = JSON.parse(JSON.stringify(result));
+    var databaseUsername = databaseFetch[0].username.trim();
+    var databasePassword = databaseFetch[0].password.trim();
+    if(databasePassword != shajs('sha256').update(req.body.password.trim()).digest('hex') || (databaseUsername != req.body.username.trim())){
+      console.log("user not verified");
+      res.status(409).send({
+      message: "Fel Lösenord eller användarnamn!"
+      });
+    }
+    else{
+      console.log("user verified");
+      res.status(200).send({
+        message: "Välkommen!"
+      });
+    }  
+  });
+
 });
 
 module.exports = router;

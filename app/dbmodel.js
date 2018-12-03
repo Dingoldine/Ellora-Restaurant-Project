@@ -108,7 +108,7 @@ var Reviews = sequelize.define('reviews', {
   },
   review: {
     type: Sequelize.STRING(1000),
-    allowNull: false
+    allowNull: true
   },
   stars: {
     type: Sequelize.INTEGER,
@@ -174,10 +174,20 @@ var Orders = sequelize.define('orders', {
 //adds customer_ID fk to orders
 Orders.belongsTo(Customers);
 //adds order_ID fk to OrderItems,  Instances of orders will get the accessors getOrderItems and setOrderItems. 
-Orders.hasMany(OrderItems)
+Orders.hasMany(OrderItems);
+
+var Credentials = sequelize.define('credentials', {
+  username: {
+    type: Sequelize.STRING,
+    primaryKey: true,
+    allowNull: false
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+});
 /* 
-
-
 
 Get functions, returns from the database 
 
@@ -206,6 +216,16 @@ exports.getReservations = function(){
 exports.getItems = function(){
 
     return Items.findAll({
+
+  }).then(function(result) {
+    return result
+  });
+
+};
+
+exports.getCredentials = function(){
+
+  return Credentials.findAll({
 
   }).then(function(result) {
     return result

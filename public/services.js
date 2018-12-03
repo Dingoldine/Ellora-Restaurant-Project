@@ -17,24 +17,36 @@
     return obj;
   })
 
-  .factory('LoginService', [
-  "$cookies", function($cookies) {
-    var admin = 'admin';
-    var pass = 'curryking';
+
+  .factory('AuthService', ['HttpService', function (http) {
     var isAuthenticated = false;
-    
+
+
     return {
-      login : function(username, password) {
-        isAuthenticated = username === admin && password === pass;
-        //$cookies.put("admin", isAuthenticated);
-        return isAuthenticated;
+    login : function (username, password) {
+      return http.post('/login', {username: username, password: password})
+        .then(
+          function (response) {
+              // populate OK message
+              console.log(response.data.message);
+              isAuthenticated = true;
+              return isAuthenticated;
+          },
+          function (response) {
+              console.log(response.data.message);
+              isAuthenticated = false;
+              return isAuthenticated;
+          });
       },
-      isAuthenticated : function() {
-        return isAuthenticated;
-      }
-    };
-    
-  }]);
+    isAuthenticated : function () {
+      // rerurn true or false if previously authenticated
+      return isAuthenticated;
+    }
+  };
+
+}]);
+
+  
 
 
 })();

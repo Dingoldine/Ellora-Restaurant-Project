@@ -22,12 +22,6 @@ div.light-blue-background
   background-color: #C5E7FF;
 }
 
-
-table {
-  border-collapse: separate;
-  border-spacing: 40px;
-}
-
 .mr-auto {
 
     margin-left: 100px;
@@ -39,12 +33,22 @@ table {
 	width: 300px;
 }
 
-.date {
+.rating-date {
 	color: #f5593d;
 }
 
 .modal {
 display: block;
+}
+.modal-open {
+  overflow: inherit;
+}
+.row .card-header h4{
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  bottom: 20px;
+  left: 20px;
+  margin: 0;
 }
 
 .fade.in {
@@ -86,10 +90,75 @@ display: block;
 }
 .shopping-cart{
   position:absolute;
-  top: 30px;
+  top: 10px;
   left: 30px;
+  margin: 80px auto;
+  background: #FFFFFF;
+  box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
+  border-radius: 6px;
+ 
+  display: flex;
+  flex-direction: column;
 }
 
+.shopping-cart #title {
+  height: 60px;
+  border-bottom: 1px solid #E1E8EE;
+  padding: 20px 30px;
+  color: #5E6977;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.shopping-cart .item-name {
+  height: 20px;
+  border-right: 1px solid #E1E8EE;
+  padding: 15px 20px;
+  color: #5E6977;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.list-group-item
+{
+  overflow:hidden;  
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+ 
 .order{
   position:relative
+}
+
+table  {
+  border: 1px solid black;
+  margin-left: 10px;
+  border-collapse: separate;
+  border-spacing: 40px;
+}
+
+//@import "compass/css3";
+
+.rating-stars {
+  color: orange;
+  font-size: 20px;
+  margin: 0px;
+  padding: 0px;
+  letter-spacing: 0.15em;
+}
+
+.rating-name{
+  height: 20px;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  padding: 0px;
+}
+.rating-text{
+  height: 20px;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  padding: 0px;
 }

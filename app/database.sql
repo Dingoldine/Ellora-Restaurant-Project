@@ -1,15 +1,14 @@
 use ellora; # Byt till din egen
 
-drop table tables; # Radera om redan finns
-drop table orders;
-drop table items;
-drop table reservations;
-drop table customers;
+drop table if exists tables; # Radera om redan finns
+drop table if exists orders;
+drop table if exists items;
+drop table if exists reservations;
+drop table if exists customers;
 
 #Table that can be booked
 create table tables (
 	id int NOT NULL AUTO_INCREMENT,
-       availible boolean,
        size int,
 	PRIMARY KEY (id)
 );
@@ -19,34 +18,44 @@ create table orders (
 	id int NOT NULL AUTO_INCREMENT,
        customerID int,      #Foreign key, connecting customer
        amount float,
-       itemID int,         #Foreign key, connecting item
-       quantity int,
-       dt datetime,
-       resolved boolean,
 	PRIMARY KEY (id),
        FOREIGN KEY (customerID) REFERENCES customers(id),
-       FOREIGN KEY (itemID) REFERENCES items(id)
 );
+
+#Dishes for sale
+create table orderItems (
+       id int NOT NULL AUTO_INCREMENT,
+       quantity int,
+       item_id int, #Foreign key, connecting item
+       order_id int, #Foreign key, connecting orders
+       FOREIGN KEY (item_id) REFERENCES items(id),
+       FOREIGN KEY (order_id) REFERENCES orders(id),  
+       PRIMARY KEY (id)
+);
+
 
 #Dishes for sale
 create table items (
        id int NOT NULL AUTO_INCREMENT,
        name varchar(64),
        price float,
+       description varchar(64),
+       type varchar(64),
        PRIMARY KEY (id)
 );
 
 #A reservation by a customer
 create table reservations(
 	id int NOT NULL AUTO_INCREMENT,
-       table int,       #Foreign key, connecting table
+       table_id int,       #Foreign key, connecting table
        arrival datetime,
        departure datetime,
-       customerID int,  #Foreign key, connecting customer
+       customer_id int,  #Foreign key, connecting customer
 	PRIMARY KEY (id),
        FOREIGN KEY (customerID) REFERENCES customers(id),
        FOREIGN KEY (table) REFERENCES tables(id)
 );
+
 #A customer
 create table customers (
        id int NOT NULL AUTO_INCREMENT,

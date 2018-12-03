@@ -4,6 +4,8 @@ var elloraController = angular.module('elloraController', ['ui.bootstrap', 'ui.r
 
 //State used for shifting state after login, and require login before accessing admin page
 elloraController.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+
+  console.log("in state shifting phase..")
        
     $stateProvider
       .state('login', {
@@ -151,10 +153,10 @@ var makeOrderModalInstanceCtrl = function ($scope, $uibModalInstance, HttpServic
 }
  //shows the admin page to a user that has logged in, uses Loginservice to see if user is authenticated, else transitions to login-page
  //makes a http get request to show all orders and bookings, can also post to add an item to the menu 
-elloraController.controller('adminController', ['$scope', 'LoginService', '$state', 'HttpService', '$uibModal', '$log',
-  function($scope, LoginService, $state, http, $uibModal, $log) {
+elloraController.controller('adminController', ['$scope', 'AuthService', '$state', 'HttpService', '$uibModal', '$log',
+  function($scope, AuthService, $state, http, $uibModal, $log) {
 
-    if(!LoginService.isAuthenticated()) {
+    if(!AuthService.isAuthenticated()) {
       $state.transitionTo('login'); 
     }
     else{
@@ -314,7 +316,7 @@ var AddItemModalInstanceCtrl = function ($scope, $uibModalInstance, HttpService,
 
 
 //The modal to handle login, if correct password/username transition to admin page, else display error
-elloraController.controller('loginController', ['$scope', '$location', 'LoginService', '$rootScope', '$stateParams', '$state',
+/* elloraController.controller('loginController', ['$scope', '$location', 'LoginService', '$rootScope', '$stateParams', '$state',
   function($scope, $location, LoginService, $rootScope, $stateParams, $state) {
     
     if(LoginService.isAuthenticated()) {
@@ -332,6 +334,33 @@ elloraController.controller('loginController', ['$scope', '$location', 'LoginSer
         } else {
           $scope.error = "Incorrect username/password !";
         }   
+      };
+    }
+  }
+]); */
+
+elloraController.controller('loginController', ['$scope', '$location', 'AuthService', '$rootScope', '$stateParams', '$state','HttpService',
+  function($scope, $location, AuthService, $rootScope, $stateParams, $state, http) {
+    
+    if(AuthService.isAuthenticated()) {
+      $state.transitionTo('admin'); 
+    }
+    else{
+      console.log("inLoginController");
+      $scope.login = function() {
+
+        AuthService.login($scope.username, $scope.password).then(
+          function(result) {
+            if(result) {
+              $scope.error = '';
+              $scope.username = '';
+              $scope.password = '';
+              $state.transitionTo('admin');
+            } else {
+              $scope.error = "Incorrect username or password !";
+            }   
+          }
+        );
       };
     }
   }
@@ -453,10 +482,6 @@ var BookModalInstanceCtrl = function ($scope, $uibModalInstance, HttpService, us
     $scope.form = {}
 
     console.log("inModalController")
-    
-    var dummyDate = parseISOLocal("2017-06-01T08:30");
-    console.log(dummyDate.getHours());
-    var dummyData = {name: "Philip", email: "example@hotmail.com", numberOfPeople: "8", time: dummyDate.toISOString()}
 
     $scope.submitForm = function () {
 
@@ -464,20 +489,28 @@ var BookModalInstanceCtrl = function ($scope, $uibModalInstance, HttpService, us
             var name = $scope.name;
             var email = $scope.email;
             var numberOfPeople =  $scope.numberPpl;
-            var time =  $scope.time;
+            var date =  Date.parse($scope.date);
+            var time = Date.parse($scope.time);
+            
+            var swedishTimeConversionFactor = 7200000;
 
+            var datetime = date + time + swedishTimeConversionFactor; 
+            
+            var bookedTime = new Date(datetime);
+            console.log(bookedTime);
+            console.log(bookedTime.toISOString());
             console.log(name);
             console.log(email);
             console.log(numberOfPeople);
-            console.log(time);
 
-            $uibModalInstance.close('closed');
+            //$uibModalInstance.close('closed');
 
-            HttpService.post('booking', {name: name, email: email, numberOfPeople: numberOfPeople, time: time}).then( 
+            HttpService.post('booking', {name: name, email: email, numberOfPeople: numberOfPeople, time: bookedTime}).then( 
 
               function successCallback(response) {
                 console.log(response)
                 alert(response.data.message)
+                //$scope.PostDataResponse = "Välkommen till ellora den " + bookedTime.toUTCString().split(' ').slice(0, 4).join(' ');
               }, function errorCallback(response) {
                 console.log(response)
                 alert(response.data.message)
