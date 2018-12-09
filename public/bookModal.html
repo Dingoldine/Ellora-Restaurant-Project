@@ -1,50 +1,51 @@
 <div class="modal-header">
-    <h3>Boka ett bord!</h3>
+  <h3>Boka ett bord!</h3>
 </div>
 <form name="form.userForm" ng-submit="submitForm()" novalidate>
-    <div class="modal-body">
-        <!-- NAME -->
-        <div class="contol-group">
-            <label>Namn</label><span class="text-danger">*</span>
-            <input type="text" name="name" class="form-control" ng-model="name" required>
-            <span class="text-danger" ng-show="submitted && form.userForm.name.$error.required">Obligatoriskt fält!</span>
-        </div>
-
-        <!-- EMAIL -->
-        <div class="contol-group" ng-class="{true: 'error'}[submitted && form.userForm.email.$invalid]">
-            <label class="control-label" for="email">Email</label><span class="text-danger">*</span>
-            <input type="email" name="email" class="form-control" ng-model="email" required>
-            <span class="text-danger" ng-show="submitted && form.userForm.email.$error.required">Obligatoriskt fält!</span>
-            <span class="text-danger" ng-show="submitted && form.userForm.email.$error.email">Ogiltig email!</span>
-        </div>
-
-        <!-- Num People -->
-        <div class="contol-group">
-            <label>Antal Personer</label><span class="text-danger">*</span>
-            <input class="form-control" type="text" name="numberPpl" ng-model="numberPpl" required>
-            <span class="text-danger" ng-show="submitted && form.userForm.numberPpl.$error.required">Obligatoriskt fält!</span>
-            <span class="text-danger" ng-show="submitted && form.userForm.numberPpl.$error.number">Inte ett giltigt nummer!</span>
-        </div>
-
-        <!-- Date day and hour and min -->
-        <div class="contol-group">
-            <label>Dag</label><span class="text-danger">*</span>
-            <input class="form-control" type="date" id="date" name="date" placeholder="dd-mm-yyyy" data-bv-field="date" 
-            ng-model="date" ng-min="2018-11-30" ng-max="2020-11-30" required>
-            <span class="text-danger" ng-show="submitted && form.userForm.date.$error.required">Obligatoriskt fält!</span>
-        </div>
-        
-        <div class="contol-group">
-                <label>Tid</label><span class="text-danger">*</span>
-                <input type="time" id="time" name="time" ng-model="time" min="11:00" max="22:00" step="900" required />
-                <span class="text-danger" ng-show="submitted && form.userForm.time.$error.required">Obligatoriskt fält!</span>
-                <p class="response"> {{PostDataResponse}}</p>
-                <p class="error"> {{ResponseDetails}}</p>
-        </div>
-
+  <div class="modal-body">
+    <!-- NAME -->
+    <div class="contol-group">
+      <label>Namn</label><span class="text-danger">*</span>
+      <input type="text" name="name" class="form-control" ng-model="name" required>
+      <span class="text-danger" ng-show="submitted && form.userForm.name.$error.required">Obligatoriskt fält!</span>
     </div>
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" ng-click="submitted=true">Boka</button> <!-- ng-disabled="form.userForm.$invalid -->
-        <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
+
+    <!-- EMAIL -->
+    <div class="contol-group" ng-class="{true: 'error'}[submitted && form.userForm.email.$invalid]">
+      <label class="control-label" for="email">Email</label><span class="text-danger">*</span>
+      <input type="email" name="email" class="form-control" ng-model="email" required>
+      <span class="text-danger" ng-show="submitted && form.userForm.email.$error.required">Obligatoriskt fält!</span>
+      <span class="text-danger" ng-show="submitted && form.userForm.email.$error.email">Ogiltig email!</span>
     </div>
+
+    <!-- Num People -->
+    <div class="contol-group">
+      <label>Antal Personer</label><span class="text-danger">*</span>
+      <input class="form-control" type="text" name="numberPpl" ng-model="numberPpl" required>
+      <span class="text-danger" ng-show="submitted && form.userForm.numberPpl.$error.required">Obligatoriskt fält!</span>
+      <span class="text-danger" ng-show="submitted && form.userForm.numberPpl.$error.number">Inte ett giltigt nummer!</span>
+    </div>
+
+    <!-- Date day and hour and min -->
+    <div class="contol-group">
+      <label>Dag</label><span class="text-danger">*</span>
+      <input class="form-control" type="date" id="date" name="date" placeholder="dd-mm-yyyy" data-bv-field="date"
+        ng-model="date" ng-min="2018-11-30" ng-max="2020-11-30" required>
+      <span class="text-danger" ng-show="submitted && form.userForm.date.$error.required">Obligatoriskt fält!</span>
+    </div>
+
+    <div class="contol-group">
+      <label>Tid</label><span class="text-danger">*</span>
+      <input type="time" id="time" name="time" ng-model="time" min="11:00" max="22:00" step="900" required />
+      <span class="text-danger" ng-show="submitted && form.userForm.time.$error.required">Obligatoriskt fält!</span>
+      <p class="response"> {{PostDataResponse}}</p>
+      <p class="error"> {{ResponseDetails}}</p>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="submitted=true">Boka</button>
+    <!-- ng-disabled="form.userForm.$invalid -->
+    <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
+  </div>
 </form>
